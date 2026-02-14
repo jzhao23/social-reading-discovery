@@ -1,101 +1,197 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useSession, signIn } from "next-auth/react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+
+interface Stats {
+  totalImports: number;
+  totalAccounts: number;
+  totalMatched: number;
+  matchRate: number;
+  totalFeedItems: number;
+  uniqueBooks: number;
+}
+
+function LandingHero() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="flex min-h-[70vh] flex-col items-center justify-center text-center">
+      <div className="max-w-2xl space-y-6">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          Discover what your{" "}
+          <span className="text-primary">Twitter circle</span> is reading
+        </h1>
+        <p className="text-lg text-muted-foreground">
+          Import your X/Twitter social graph, find your friends on Goodreads,
+          and see a curated feed of what the people you trust are reading,
+          rating, and recommending.
+        </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <Button
+            size="lg"
+            onClick={() => signIn("twitter")}
+            className="w-full sm:w-auto"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Connect with X / Twitter
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Read-only access. We never post on your behalf.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="grid gap-6 pt-8 sm:grid-cols-3">
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary">1</div>
+            <h3 className="font-semibold">Import Your Network</h3>
+            <p className="text-sm text-muted-foreground">
+              Connect your X account or paste any profile URL to scan their
+              following list.
+            </p>
+          </div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary">2</div>
+            <h3 className="font-semibold">Find Readers</h3>
+            <p className="text-sm text-muted-foreground">
+              Our resolution engine matches X accounts to Goodreads profiles
+              using smart, layered detection.
+            </p>
+          </div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary">3</div>
+            <h3 className="font-semibold">See What They Read</h3>
+            <p className="text-sm text-muted-foreground">
+              Browse a curated feed of books, ratings, and reviews from people
+              you actually know and trust.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
+}
+
+function Dashboard() {
+  const [stats, setStats] = useState<Stats | null>(null);
+
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((r) => r.json())
+      .then(setStats)
+      .catch(console.error);
+  }, []);
+
+  if (!stats) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (stats.totalImports === 0) {
+    return (
+      <div className="mx-auto max-w-lg space-y-8 py-12">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Welcome to Social Reading</h1>
+          <p className="mt-2 text-muted-foreground">
+            Let&apos;s find your friends on Goodreads.
+          </p>
+        </div>
+
+        <div className="grid gap-4">
+          <Link href="/import">
+            <Card className="cursor-pointer transition-shadow hover:shadow-md">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold">Import My Network</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Scan your X following list and find who&apos;s on Goodreads.
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/lookup">
+            <Card className="cursor-pointer transition-shadow hover:shadow-md">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold">Look Up Someone</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Paste any X profile URL to see what they&apos;re reading.
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Card>
+          <CardContent className="p-6 text-center">
+            <p className="text-3xl font-bold text-primary">
+              {stats.totalMatched}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Connections found
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6 text-center">
+            <p className="text-3xl font-bold text-primary">
+              {stats.matchRate}%
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">Match rate</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6 text-center">
+            <p className="text-3xl font-bold text-primary">
+              {stats.uniqueBooks}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Books discovered
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="flex gap-3">
+        <Link href="/feed">
+          <Button>View Reading Feed</Button>
+        </Link>
+        <Link href="/import">
+          <Button variant="outline">Manage Imports</Button>
+        </Link>
+        <Link href="/lookup">
+          <Button variant="outline">Look Up Someone</Button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default function Home() {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return (
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <LandingHero />;
+  }
+
+  return <Dashboard />;
 }

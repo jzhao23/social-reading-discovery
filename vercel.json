@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "env": {
+    "DATABASE_URL": "@database-url",
+    "NEXTAUTH_SECRET": "@nextauth-secret",
+    "TWITTER_CLIENT_ID": "@twitter-client-id",
+    "TWITTER_CLIENT_SECRET": "@twitter-client-secret"
+  }
+}
