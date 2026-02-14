@@ -4,9 +4,9 @@ Discover what your Twitter/X circle is reading on Goodreads. Import your social 
 
 ## Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fjzhao23%2Fsocial-reading-discovery&env=DATABASE_URL,NEXTAUTH_SECRET,TWITTER_CLIENT_ID,TWITTER_CLIENT_SECRET&envDescription=Required%20environment%20variables%20for%20Social%20Reading%20Discovery&envLink=https%3A%2F%2Fgithub.com%2Fjzhao23%2Fsocial-reading-discovery%23environment-variables&project-name=social-reading-discovery&stores=[{"type":"postgres"}])
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fjzhao23%2Fsocial-reading-discovery&env=NEXTAUTH_SECRET,TWITTER_CLIENT_ID,TWITTER_CLIENT_SECRET&envDescription=Required%20environment%20variables%20for%20Social%20Reading%20Discovery&envLink=https%3A%2F%2Fgithub.com%2Fjzhao23%2Fsocial-reading-discovery%23environment-variables&project-name=social-reading-discovery&stores=[{"type":"postgres"}])
 
-> After clicking the button, Vercel will prompt you for the environment variables listed below.
+> Vercel auto-provisions a Postgres database. You'll be prompted for the 3 other env vars listed below.
 
 ## Environment Variables
 
